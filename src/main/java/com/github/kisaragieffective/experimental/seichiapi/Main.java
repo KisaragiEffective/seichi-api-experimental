@@ -24,6 +24,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.sql.DataSource;
@@ -77,37 +78,7 @@ public class Main {
         }
     }
 
-    @RequestMapping("/api/v1/transaction/increase")
-    String increase(Map<String, Object> template) {
-        template.put("message", "INCREASE PAGE, BUT IS NOT IMPLEMENTED");
-        return "error";
-    }
-
-    @RequestMapping("/api/v1/transaction/decrease")
-    String decrease(Map<String, Object> template) {
-        template.put("message", "DECREASE PAGE, BUT IS NOT IMPLEMENTED");
-        return "error";
-    }
-
-    @RequestMapping("/api/v1/transaction/logs")
-    String showLog(Map<String, Object> template) {
-        try (Connection connection = dataSource.getConnection()) {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-            stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-            try(ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks")) {
-                List<String> output = new ArrayList<>();
-                while (rs.next()) {
-                    output.add("Read from DB: " + rs.getTimestamp("tick"));
-                }
-                template.put("json", output);
-                return "v1_log";
-            }
-        } catch (Exception e) {
-            template.put("message", e.getMessage());
-            return "error";
-        }
-    }
+    @RequestMapping("")
 
     @Bean
     public DataSource dataSource() throws SQLException {
