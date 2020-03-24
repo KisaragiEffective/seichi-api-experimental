@@ -78,8 +78,6 @@ public class Main {
         }
     }
 
-    @RequestMapping("")
-
     @Bean
     public DataSource dataSource() throws SQLException {
         if (dbUrl == null || dbUrl.isEmpty()) {
